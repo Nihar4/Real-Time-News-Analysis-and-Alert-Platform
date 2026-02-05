@@ -9,9 +9,7 @@
 
 ## 🎥 Demo Video
 
-[![Platform Demo](https://img.youtube.com/vi/8be_F-TpQic/0.jpg)](https://www.youtube.com/watch?v=8be_F-TpQic)
-
-**▶️ [Watch the Full Demo on YouTube](https://www.youtube.com/watch?v=8be_F-TpQic)**
+**▶️ [Watch the Demo Video](https://drive.google.com/file/d/1-A9wOPZv-DTnTMRgx7p6K3IMFCzZ_ilD/view?usp=sharing)**
 
 ---
 
