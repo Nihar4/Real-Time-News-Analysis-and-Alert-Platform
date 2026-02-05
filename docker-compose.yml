@@ -1,0 +1,293 @@
+name: real-time-news-platform
+services:
+  redpanda:
+    image: redpandadata/redpanda:v25.2.2
+    command:
+      - redpanda
+      - start
+      - --mode=dev-container
+      - --smp=1
+      - --memory=1G
+      - --reserve-memory=0M
+      - --default-log-level=info
+      - --kafka-addr=internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr=internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr=internal://0.0.0.0:8082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr=internal://redpanda:8082,external://localhost:18082
+      - --schema-registry-addr=internal://0.0.0.0:8081,external://0.0.0.0:18081
+      - --rpc-addr=redpanda:33145
+      - --advertise-rpc-addr=redpanda:33145
+    ports:
+      - "19092:19092"
+      - "9644:9644"
+      - "18081:18081"
+      - "18082:18082"
+    volumes:
+      - redpanda-data:/var/lib/redpanda/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "rpk cluster info --brokers=localhost:9092 >/dev/null 2>&1 || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [newsinsight-net]
+  
+  redis:
+    image: redis:7-alpine
+    container_name: redis-newsinsight
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks: [newsinsight-net]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight-newsinsight
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight_data:/data
+    networks: [newsinsight-net]
+    depends_on:
+      - redis
+
+  postgres:
+    image: ankane/pgvector:latest
+    container_name: pg-newsinsight
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d newsinsight"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    networks: [newsinsight-net]
+
+  console:
+    image: redpandadata/console:v3.2.1
+    environment:
+      KAFKA_BROKERS: redpanda:9092
+      REDPANDA_ADMINAPI_URLS: http://redpanda:9644
+      SCHEMAREGISTRY_URLS: http://redpanda:8081
+      CONSOLE_LOGIN_ENABLED: "false"
+    depends_on:
+      redpanda: { condition: service_healthy }
+    ports: ["8080:8080"]
+    networks: [newsinsight-net]
+
+  news-fetcher:
+    build: ./services/news-fetcher
+    image: newsinsight/news-fetcher:dev
+    env_file:
+      - .env
+    environment:
+      POLL_INTERVAL_SECONDS: "30"
+      HTTP_TIMEOUT: "15"
+      RATE_LIMIT_DELAY: "1.0"
+      KAFKA_TOPIC: "news.raw.fetched"
+    volumes:
+      - ./services/news-fetcher/state:/app/state
+      - ./services/news-fetcher/src:/app/src
+    command:
+      [
+        "sh",
+        "-c",
+        "rm -f /app/state/dedupe.json /app/state/http_state.json && python3 -m src.main",
+      ]
+    depends_on:
+      redpanda: { condition: service_healthy }
+    networks: [newsinsight-net]
+
+  # content-processor:
+  #   build: ./services/content-processor
+  #   image: newsinsight/content-processor:dev
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     KAFKA_TOPIC_RAW_ARTICLES: news.raw.fetched
+  #     KAFKA_TOPIC_PROCESSED_ARTICLES: news.cleaned
+  #     KAFKA_CONSUMER_GROUP: content-processing-group
+  #     REQUEST_TIMEOUT: "30"
+  #     USER_AGENT: "Mozilla/5.0 (compatible; NewsBot/1.0)"
+  #     AUTO_TRANSLATE_NON_ENGLISH: "true"
+  #   volumes:
+  #     - ./services/content-processor/src:/app/src
+  #   command: ["python3", "-m", "src.main"]
+  #   depends_on:
+  #     redpanda: { condition: service_healthy }
+  #   networks: [newsinsight-net]
+  #   restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:8.11
+    container_name: pgadmin-newsinsight
+    env_file:
+      - .env
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres: { condition: service_healthy }
+    networks: [newsinsight-net]
+    restart: unless-stopped
+
+  llm-intel:
+    build: ./services/llm-intel
+    image: newsinsight/llm-intel:dev
+    env_file:
+      - .env
+    environment:
+      KAFKA_TOPIC_INPUT: news.cleaned
+      KAFKA_TOPIC_OUTPUT: news.enriched
+      KAFKA_CONSUMER_GROUP: topic-extraction-group
+      CEREBRAS_MODEL: gpt-oss-120b
+      CEREBRAS_MAX_TOKENS: "4096"
+      CEREBRAS_TEMPERATURE: "0.7"
+      TEST_MODE: "false"
+      # Embedding Configuration
+      EMBEDDING_MODEL: Qwen/Qwen3-Embedding-0.6B
+      EMBEDDING_DIMENSION: 1024
+      # Topic Matching Thresholds
+      SIMILARITY_THRESHOLD_HIGH: 0.90
+      SIMILARITY_THRESHOLD_LLM: 0.80
+      RELEVANCE_THRESHOLD: 0.50
+      FUZZY_THRESHOLD: 95
+    volumes:
+      - ./services/llm-intel/src:/app/src
+    command: ["python", "-m", "src.main"]
+    depends_on:
+      redpanda: { condition: service_healthy }
+      postgres: { condition: service_healthy }
+    networks: [newsinsight-net]
+    restart: unless-stopped
+
+  embedding-dedupe:
+    build: ./services/embedding-dedupe
+    image: newsinsight/embedding-dedupe:dev
+    container_name: newsinsight-embedding-dedupe-1
+    volumes:
+      - ./services/embedding-dedupe/src:/app/src
+      # Mount Hugging Face cache to avoid re-downloading model on every restart
+      - huggingface_cache:/root/.cache/huggingface
+    env_file:
+      - .env
+    environment:
+      - KAFKA_TOPIC_INPUT=news.enriched
+      - KAFKA_TOPIC_OUTPUT=news.deduped
+      - KAFKA_CONSUMER_GROUP=embedding-dedupe-group
+      - EMBEDDING_MODEL_ID=google/embeddinggemma-300M
+      - EMBEDDING_DEVICE=cpu
+      - SIMILARITY_THRESHOLD=0.70
+    command: ["python", "-u", "-m", "src.main"]
+    depends_on:
+      redpanda:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - newsinsight-net
+    restart: unless-stopped
+
+  user-org:
+    build: ./services/user-org
+    image: newsinsight/user-org:dev
+    container_name: newsinsight-user-org-1
+    volumes:
+      - ./services/user-org/src:/app/src
+    env_file:
+      - .env
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - newsinsight-net
+    command: ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  event-mapper:
+    build: ./services/event-mapper
+    image: newsinsight/event-mapper:dev
+    container_name: newsinsight-event-mapper-1
+    volumes:
+      - ./services/event-mapper/src:/app/src
+    env_file:
+      - .env
+    environment:
+      - KAFKA_TOPIC_INPUT=news.deduped
+      - KAFKA_TOPIC_OUTPUT=events.created
+      - KAFKA_CONSUMER_GROUP=event-mapper-group
+    command: ["python", "-u", "-m", "src.main"]
+    depends_on:
+      redpanda:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - newsinsight-net
+    restart: unless-stopped
+
+  notification-service:
+    build: ./services/notification-service
+    image: news-platform/notification-service:dev
+    container_name: notification-service
+    env_file:
+      - .env
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=redpanda:9092
+      - KAFKA_TOPIC=news.deduped
+      - KAFKA_CONSUMER_GROUP=notification-service-group
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASSWORD=
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+    depends_on:
+      redpanda:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - newsinsight-net
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: nextjs-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8001
+      # Note: Frontend mostly runs client-side so environment vars here might strictly not be enough if they need to be baked in at build time or served at runtime.
+      # But for dev mode ('npm run dev'), it works.
+    depends_on:
+      - user-org
+    networks:
+      - newsinsight-net
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+networks:
+  newsinsight-net:
+    driver: bridge
+
+volumes:
+  redpanda-data:
+  postgres_data:
+  redis_data:
+  redisinsight_data:
+  huggingface_cache:

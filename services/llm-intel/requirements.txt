@@ -1,0 +1,13 @@
+# Kafka
+aiokafka==0.10.0
+python-snappy==0.7.3
+
+# LLM
+google-generativeai
+cerebras-cloud-sdk>=1.5.0
+
+# Utils
+pydantic>=2.9.0
+pydantic-settings>=2.1.0
+structlog==23.2.0
+psycopg2-binary==2.9.9

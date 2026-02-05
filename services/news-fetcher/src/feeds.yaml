@@ -1,0 +1,212 @@
+feeds:
+
+  # Technology News
+  - https://feeds.arstechnica.com/arstechnica/index
+  - https://www.theverge.com/rss/index.xml
+  - https://techcrunch.com/feed/
+  - https://www.wired.com/feed/rss
+  - https://rss.slashdot.org/Slashdot/slashdotMain
+  - https://www.engadget.com/rss.xml
+  - https://www.zdnet.com/news/rss.xml
+  - https://www.cnet.com/rss/news/
+  - https://www.techmeme.com/feed.xml
+  - https://news.ycombinator.com/rss
+  - https://hnrss.org/frontpage
+  - https://github.blog/changelog/feed/
+  - https://www.technologyreview.com/topnews.rss
+  - https://feeds.feedburner.com/venturebeat/SZYF
+
+  # General News
+  - http://rss.cnn.com/rss/edition.rss
+  - http://rss.cnn.com/rss/edition_world.rss
+  - http://feeds.bbci.co.uk/news/rss.xml
+  - http://feeds.bbci.co.uk/news/world/rss.xml
+  - http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+  - http://rss.nytimes.com/services/xml/rss/nyt/World.xml
+  - https://www.theguardian.com/world/rss
+  - https://www.aljazeera.com/xml/rss/all.xml
+  - https://feeds.npr.org/1001/rss.xml
+  - https://feeds.skynews.com/feeds/rss/world.xml
+  - https://www.euronews.com/rss?format=mrss
+  - https://feeds.feedburner.com/ndtvnews-world-news
+
+  # Business and Finance
+  - https://feeds.bloomberg.com/markets/news.rss
+  - https://www.ft.com/?format=rss
+  - https://finance.yahoo.com/news/rssindex
+  - https://seekingalpha.com/market_currents.xml
+  - https://www.fool.com/feeds/index.aspx
+  - https://www.marketwatch.com/rss/topstories
+  - https://feeds2.feedburner.com/businessinsider
+  - https://feeds.a.dj.com/rss/RSSWorldNews.xml
+  - https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml
+  - https://feeds.a.dj.com/rss/RSSMarketsMain.xml
+  - https://feeds.content.dowjones.io/public/rss/RSSWSJD
+
+  # Science and Technology
+  - http://feeds.nature.com/nature/rss/current
+  - https://www.sciencedaily.com/rss/all.xml
+  - https://www.newscientist.com/feed/home
+  - https://phys.org/rss-feed/
+  - https://www.space.com/feeds/all
+  - https://www.nature.com/nature.rss
+  - https://www.nasa.gov/rss/dyn/breaking_news.rss
+
+  # Entertainment
+  - http://feeds.feedburner.com/variety/headlines
+  - https://deadline.com/feed/
+  - https://www.hollywoodreporter.com/feed/
+
+  # Sports
+  - http://rss.espn.com/espn/rss/news
+  - http://rss.espn.com/espn/rss/soccer
+  - https://www.skysports.com/rss/12040
+  - http://feeds.bbci.co.uk/sport/rss.xml
+  - https://sports.yahoo.com/rss/
+  - https://sports.yahoo.com/general/news/rss/
+  - https://www.cbssports.com/rss/headlines/
+
+  # Crypto and Blockchain
+  - https://cointelegraph.com/rss
+  - https://www.coindesk.com/arc/outboundfeeds/rss/
+  - https://cryptopotato.com/feed/
+  - https://decrypt.co/feed
+  - https://bitcoinmagazine.com/.rss/full
+
+  # Health and Medicine
+  - https://www.who.int/rss-feeds/news-english.xml
+
+  # India News
+  - https://www.thehindu.com/news/national/feeder/default.rss
+  - https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms
+  - https://www.indiatoday.in/rss/1206514
+  - https://www.ndtv.com/rss
+  - https://www.hindustantimes.com/rss/topnews/rssfeed.xml
+  - https://www.news18.com/rss/india.xml
+
+  # Additional Tech
+  - https://feeds.feedburner.com/venturebeat/SZYF
+
+  # Wall Street Journal feeds
+  - https://feeds.content.dowjones.io/public/rss/RSSOpinion
+  - https://feeds.content.dowjones.io/public/rss/RSSWorldNews
+  - https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness
+  - https://feeds.content.dowjones.io/public/rss/RSSMarketsMain
+  - https://feeds.content.dowjones.io/public/rss/RSSWSJD
+  - https://feeds.content.dowjones.io/public/rss/RSSLifestyle
+  - https://feeds.content.dowjones.io/public/rss/RSSUSnews
+  - https://feeds.content.dowjones.io/public/rss/socialpoliticsfeed
+  - https://feeds.content.dowjones.io/public/rss/socialeconomyfeed
+  - https://feeds.content.dowjones.io/public/rss/RSSArtsCulture
+  - https://feeds.content.dowjones.io/public/rss/latestnewsrealestate
+  - https://feeds.content.dowjones.io/public/rss/RSSPersonalFinance
+  - https://feeds.content.dowjones.io/public/rss/socialhealth
+  - https://feeds.content.dowjones.io/public/rss/RSSStyle
+  - https://feeds.content.dowjones.io/public/rss/rsssportsfeed
+
+  # NDTV
+  - https://feeds.feedburner.com/ndtvnews-top-stories
+  - https://feeds.feedburner.com/ndtvnews-latest
+  - https://feeds.feedburner.com/ndtvnews-trending-news
+  - https://feeds.feedburner.com/ndtvnews-india-news
+  - https://feeds.feedburner.com/ndtvnews-world-news
+  - https://feeds.feedburner.com/ndtvprofit-latest
+  - https://feeds.feedburner.com/ndtvmovies-latest
+  - https://feeds.feedburner.com/ndtvsports-latest
+  - https://feeds.feedburner.com/ndtvsports-cricket
+  - https://feeds.feedburner.com/gadgets360-latest
+  - https://feeds.feedburner.com/carandbike-latest
+  - https://feeds.feedburner.com/ndtvnews-cities-news
+  - https://feeds.feedburner.com/ndtvnews-south
+  - https://feeds.feedburner.com/ndtvnews-indians-abroad
+  - https://feeds.feedburner.com/ndtvcooks-latest
+  - https://feeds.feedburner.com/ndtvnews-offbeat-news
+  - https://feeds.feedburner.com/ndtvnews-people
+  - https://feeds.feedburner.com/ndtvkhabar-latest
+  - https://feeds.feedburner.com/ndtv/latest-videos
+
+  # News18
+  - https://www.news18.com/commonfeeds/v1/eng/rss/movies.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/india.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/entertainment.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/politics.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/cricket.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/world.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/business.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/education-career.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/opinion.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/explainers.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/tech.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/auto.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/sports.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/football.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/astrology.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/web-stories.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/viral.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/elections.xml
+  - https://www.news18.com/commonfeeds/v1/eng/rss/lifestyle-2.xml
+
+  # Big Tech Ecosystems
+  - https://9to5mac.com/feed/
+  - https://www.macrumors.com/macrumors.xml
+  - https://daringfireball.net/feeds/main
+  - https://9to5google.com/feed/
+  - https://www.androidauthority.com/feed/
+  - https://www.windowscentral.com/rss
+  - https://www.thurrott.com/feed
+
+  # Company Engineering Blogs
+  - https://netflixtechblog.com/feed
+  - https://engineering.fb.com/feed/
+  - https://eng.uber.com/feed/
+  - https://shopify.engineering/feed
+  - https://slack.engineering/feed
+  - https://github.blog/category/engineering/feed/
+  - https://stackoverflow.blog/engineering/feed/
+  - https://dropbox.tech/feed
+  - https://www.canva.dev/blog/feed.xml
+
+  # Enterprise, Hardware and Cybersecurity
+  - https://www.theregister.com/headlines.atom
+  - https://krebsonsecurity.com/feed/
+  - https://www.schneier.com/blog/atom.xml
+  - https://www.tomshardware.com/feeds/all
+  - https://www.anandtech.com/rss/
+  - https://stratechery.com/feed/
+
+  # Business Strategy and VC Insights
+  - https://hbr.org/feeds/topics/technology-and-analytics
+  - https://a16z.com/feed/
+  - https://avc.com/feed/
+  - https://www.ben-evans.com/benedictevans?format=rss
+  - https://fortune.com/feed/fortune-feeds/?id=3230629
+  - https://www.forbes.com/technology/feed/
+
+  # AI and Machine Learning
+  - https://openai.com/blog/rss.xml
+  - https://research.google/blog/rss/
+  - https://www.microsoft.com/en-us/research/feed/
+  - https://bair.berkeley.edu/blog/feed.xml
+
+  # Big Tech Investor Relations
+  - https://www.microsoft.com/en-us/investor/rss/pressreleases.xml
+  - https://abc.xyz/investor/rss/
+  - https://ir.tesla.com/rss/press-releases.xml
+  - https://ir.aboutamazon.com/rss/news-releases.xml
+  - https://investor.fb.com/rss/press-releases.xml
+  - https://investor.nvidia.com/rss/press-releases.xml
+  - https://www.apple.com/newsroom/rss-feed.rss
+  - https://investors.netflix.com/rss/press-releases.xml
+
+  # Global Press Wires
+  - https://www.prnewswire.com/rss/technology-latest-news/business-technology-news.rss
+  - https://www.businesswire.com/rss/home/?rss=G1QFDERJXkJeGVtQXg==
+  - https://www.globenewswire.com/AtomFeed/industry/2795-financial
+
+  # Government Regulatory
+  - https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&output=atom
+
+  # Market Intelligence
+  - https://feeds.content.dowjones.io/public/rss/MW_TopStories
+  - https://www.investing.com/rss/news.rss
+  - https://stocktwits.com/feeds/news

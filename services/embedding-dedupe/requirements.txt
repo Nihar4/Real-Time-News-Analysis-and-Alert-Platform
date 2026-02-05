@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+structlog
+pydantic
+pydantic-settings
+kafka-python
+psycopg2-binary
+pgvector
+sentence-transformers
+torch
+huggingface_hub
+python-dotenv

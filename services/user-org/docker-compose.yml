@@ -1,0 +1,20 @@
+services:
+  user-service:
+    build: .
+    container_name: user-service
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: redpanda:9092
+    env_file:
+      - .env
+    ports:
+      - "5001:5001"
+    depends_on: []
+    # We connect to Postgres/Redpanda on the host via host.docker.internal
+    # so we don't need to join their Compose network.
+    restart: unless-stopped
+    networks:
+      - newsinsight-net
+
+networks:
+  newsinsight-net:
+    external: true
